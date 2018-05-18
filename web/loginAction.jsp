@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="store.StoreDAO" %>
+<%@ page import="owner.ownerDAO" %>
 <%@ page import="java.io.PrintWriter" %>
-<jsp:useBean id="store" class="store.Store" scope="page"/>
-<jsp:setProperty name="store" property="ownerLoginId"/>
-<jsp:setProperty name="store" property="ownerPass"/>
+<jsp:useBean id="owner" class="owner.Owner" scope="page"/>
+<jsp:setProperty name="owner" property="ownerLoginId"/>
+<jsp:setProperty name="owner" property="ownerPass"/>
 <% request.setCharacterEncoding("UTF-8");%>
 <!DOCTYPE html>
 
@@ -15,8 +15,8 @@
 <body>
 <%
 
-    StoreDAO storeDAO = new StoreDAO();
-    int result = storeDAO.login(store.getOwnerLoginId(), store.getOwnerPass());
+    ownerDAO ownerDAO = new ownerDAO();
+    int result = ownerDAO.login(owner.getOwnerLoginId(), owner.getOwnerPass());
     PrintWriter printWriter = response.getWriter();
 
     if (result == 1) {

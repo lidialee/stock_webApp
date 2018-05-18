@@ -1,11 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="store.StoreDAO" %>
+<%@ page import="owner.ownerDAO" %>
 <%@ page import="java.io.PrintWriter" %>
-<jsp:useBean id="store" class="store.Store" scope="page"/>
-<jsp:setProperty name="store" property="ownerLoginId"/>
-<jsp:setProperty name="store" property="ownerPass"/>
-<jsp:setProperty name="store" property="ownerName"/>
-<jsp:setProperty name="store" property="ownerPhone"/>
+<jsp:useBean id="owner" class="owner.Owner" scope="page"/>
+<jsp:setProperty name="owner" property="ownerLoginId"/>
+<jsp:setProperty name="owner" property="ownerPass"/>
+<jsp:setProperty name="owner" property="ownerName"/>
+<jsp:setProperty name="owner" property="ownerPhone"/>
 <% request.setCharacterEncoding("UTF-8");%>
 <!DOCTYPE html>
 
@@ -21,14 +21,14 @@
     String selectedStoreName  = request.getParameter("ownerName").toString();
     System.out.println("선택 가게 확인 :"+selectedStoreName);
 
-    if (store.getOwnerLoginId() == null || store.getOwnerPass() == null || store.getOwnerName() == null ||  store.getOwnerPhone() == null|| selectedStoreName ==null) {
+    if (owner.getOwnerLoginId() == null || owner.getOwnerPass() == null || owner.getOwnerName() == null ||  owner.getOwnerPhone() == null|| selectedStoreName ==null) {
         printWriter.println("<script>");
         printWriter.println("alert('입력 안 된 사항이 있습니다')");
         printWriter.println("history.back()");
         printWriter.println("</script>");
     } else {
-        StoreDAO storeDAO = new StoreDAO();
-        storeDAO.test(selectedStoreName);
+        ownerDAO ownerDAO = new ownerDAO();
+        ownerDAO.test(selectedStoreName);
 
     }
 %>

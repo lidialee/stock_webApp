@@ -1,16 +1,16 @@
-package store;
+package owner;
 
 import java.sql.*;
 import java.util.*;
 
 // 디비를 사용해 데이터를 조회하거나 조작하는 기능을 전담하는 클래스
-public class StoreDAO {
+public class ownerDAO {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet resultSet;
     private String SQL_instruct;
 
-    public StoreDAO(){
+    public ownerDAO(){
         try {
             String dbURL = "jdbc:mysql://localhost:3306/beetle";
             String dbID = "root";
@@ -22,12 +22,14 @@ public class StoreDAO {
             System.out.println(e.getLocalizedMessage());
         }
     }
-//
-//    -2 : 데이터베이스 오류
-//    -1 : 아이디가 없음
-//    0 : 비밀번호 불일치
-//    1 : 로그인 성공
 
+    /**
+     * return
+     *  1  : 로그인 성공
+     * -2  : 데이터베이스 오류
+     * -1  : 아이디가 없음
+     *  0  : 비밀번호 불일치
+     */
     public int login(String id, String pass) {
         SQL_instruct = "SELECT password FROM owner WHERE login_id = ?";
         try {
@@ -51,7 +53,7 @@ public class StoreDAO {
 
 
     /**
-     * DB 'store'테이블의 'name'의 모든 값 가져오기
+     * DB 'owner'테이블의 'name'의 모든 값 가져오기
      */
     public ArrayList<String> getStoreName() {
         ArrayList<String> list = new ArrayList();
@@ -124,7 +126,7 @@ public class StoreDAO {
      * 1. owner에 새로운 점주정보 등록
      * 2. 해당 store의 owner_id를 1에서 새로운 owner_id로 업데이트하자
      */
-    public int join(Store store, String storeName) {
+    public int join(Owner owner, String storeName) {
         int re = checkAlreadyRegister(storeName);
         int storeId;
 
@@ -135,10 +137,10 @@ public class StoreDAO {
                 try {
                     pstmt = conn.prepareStatement(SQL_instruct);
                     pstmt.setString(1, makeRandomOwnerId());
-                    pstmt.setString(2, store.getOwnerLoginId());
-                    pstmt.setString(3, store.getOwnerPass());
-                    pstmt.setString(4, store.getOwnerPhone());
-                    pstmt.setString(5, store.getOwnerName());
+                    pstmt.setString(2, owner.getOwnerLoginId());
+                    pstmt.setString(3, owner.getOwnerPass());
+                    pstmt.setString(4, owner.getOwnerPhone());
+                    pstmt.setString(5, owner.getOwnerName());
                     pstmt.setInt(6, storeId);
                     return pstmt.executeUpdate();
                 } catch (SQLException e) {
@@ -150,6 +152,40 @@ public class StoreDAO {
         else if (re == -1) return -1;          //  쿼리 에러
         return -3;                            //  아이디 중복
     }
+
+
+
+    public int setOwnerIdIntoStore(String loginId,String storeName){
+        String ownerId;
+        SQL_instruct = "SELECT owner_id FROM owner WHERE login_id = ?";
+        try {
+            pstmt = conn.prepareStatement(SQL_instruct);
+            pstmt.setString(1, loginId);
+            resultSet = pstmt.executeQuery();
+
+            if (resultSet.next()) {
+                ownerId = resultSet.getString(1);
+                SQL_instruct = "UPDATE store SET owner_id = ? WHERE name = ? ";
+                try {
+                    pstmt = conn.prepareStatement(SQL_instruct);
+                    pstmt.setString(1, ownerId);
+                    pstmt.setString(2, storeName);
+                    return pstmt.executeUpdate();
+                }catch(SQLException e){
+                    System.out.println("위치확인1");
+                    System.out.println(e.getLocalizedMessage());
+                }
+            }else{
+                System.out.println("ownerId를 구하지 못한경우");
+                return -1;
+            }
+        } catch (Exception e) {
+            System.out.println("위치확인2");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return -2;
+    }
+
 
 
 
