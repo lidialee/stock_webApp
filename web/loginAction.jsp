@@ -15,11 +15,9 @@
 <body>
 <%
 
-    request.setCharacterEncoding("UTF-8");
     StoreDAO storeDAO = new StoreDAO();
-    int result = storeDAO.login(store.getOwnerId(), store.getOwnerPass());
+    int result = storeDAO.login(store.getOwnerLoginId(), store.getOwnerPass());
     PrintWriter printWriter = response.getWriter();
-    System.out.println("!!!!= " + result);
 
     if (result == 1) {
         printWriter.println("<script>");

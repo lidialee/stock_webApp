@@ -17,7 +17,6 @@
 <body>
 <%
     PrintWriter printWriter = response.getWriter();
-    request.setCharacterEncoding("UTF-8");
     String selectedStoreName  = request.getParameter("storeCharName").toString();
     System.out.println("선택 가게 확인 :"+selectedStoreName);
 
@@ -30,7 +29,7 @@
         StoreDAO storeDAO = new StoreDAO();
         int result = storeDAO.join(store,selectedStoreName);
 
-        if (result == -1) {
+        if (result == -3) {
             printWriter.println("<script>");
             printWriter.println("alert('이미 존재하는 아이디입니다')");
             printWriter.println("history.back()");
@@ -38,6 +37,12 @@
         } else if(result == -2){
             printWriter.println("<script>");
             printWriter.println("alert('이미 등록된 점포입니다. 다시 선택해주세요')");
+            printWriter.println("history.back()");
+            printWriter.println("</script>");
+        }
+        else if(result == -1){
+            printWriter.println("<script>");
+            printWriter.println("alert('쿼리에러')");
             printWriter.println("history.back()");
             printWriter.println("</script>");
         }
