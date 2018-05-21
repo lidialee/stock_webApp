@@ -1,6 +1,6 @@
-package store;
+package owner;
 
-public class Store {
+public class Owner {
 
     private int ownerId;
     private String ownerLoginId;

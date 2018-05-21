@@ -15,7 +15,8 @@
     <title>Title</title>
 </head>
 <body>
-<% Boolean resultGetOwnerId;
+<%
+    Boolean resultGetOwnerId;
     PrintWriter printWriter = response.getWriter();
     String selectedStoreName = request.getParameter("storeCharName").toString();
     System.out.println("선택 가게 확인 :" + selectedStoreName);
