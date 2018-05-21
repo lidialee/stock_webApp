@@ -1,0 +1,55 @@
+  h1{
+      font-size: 45px;
+      text-align: center;
+      border-bottom: 1px solid gray;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+    .input_info{
+      text-align: center;
+    }
+
+     img{
+      width:200px;
+      height: 120px;
+      margin-top: 20px;
+    }
+
+    .info{
+      color: rgb(232.50.0);
+      font-family: 'Alfa Slab One', cursive;
+      font-size: 25px;
+      color: skyblue;
+      margin:10px;
+    }
+
+    #selectbox{
+      width:100px;
+      height: 30px;
+    }
+
+    #sign1{
+      padding: 15px 25px;
+      color: #fff;
+      border-radius: 4px;
+      border: none;
+      background-color: #2ECC71;
+    }
+
+    #sign2{
+      padding: 15px 25px;
+      color: #fff;
+      border-radius: 4px;
+      border: none;
+      background-color: red;
+    }
+
+    .inputbox{
+        width: 300px;
+        height: 30px;
+    }
+
+    body{
+      background-color: #F9F42E
+    }

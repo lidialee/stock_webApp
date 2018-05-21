@@ -1,0 +1,40 @@
+body{
+  margin: 0 auto;
+  background-color: #E83200;
+  background-repeat: no-repeat;
+  background-size: 100% 720px;
+}
+.loginbox{
+  width: 500px;
+  height: 400px;
+  text-align: center;
+  background-color: rgba(255, 255, 128, .5);
+  border-radius: 4px;
+  margin: 0 auto;
+  margin-top: 150px;
+}
+.loginbox img{
+  width:170px;
+  height: 120px;
+  margin-top: -60px;
+  margin-bottom: 30px;
+}
+input[type="text"],input[type="Password"]{
+  height: 45px;
+  width: 300px;
+  font-size: 15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding-left: 30px;
+}
+
+.login{
+  padding: 15px 25px;
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  background-color: #2ECC71;
+}
+.a{
+  color: #fff;
+}

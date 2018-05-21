@@ -154,7 +154,10 @@ public class ownerDAO {
     }
 
 
-
+    /**
+     * 점주의 (login_id)를 통해서 점주의 (owner_id)를 구하고
+     * 구해진 owner_id를 선택된 지점의 owner_id값에 쓴다
+     */
     public int setOwnerIdIntoStore(String loginId,String storeName){
         String ownerId;
         SQL_instruct = "SELECT owner_id FROM owner WHERE login_id = ?";
@@ -186,9 +189,6 @@ public class ownerDAO {
         return -2;
     }
 
-
-
-
     /**
      * owner테이블의 pk인 owner_id를 생성하는 랜덤함수
      * 총 10가지 원소로 length = 9인 랜덤 문자열출력
@@ -206,5 +206,11 @@ public class ownerDAO {
 
         return buffer.toString();
     }
+
+
+
+
+
+
 
 }
