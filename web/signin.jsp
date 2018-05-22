@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <% request.setCharacterEncoding("UTF-8");%>
-<%@ page import="owner.ownerDAO" %>
+<%@ page import="owner.OwnerDAO" %>
 <%@ page import="owner.Owner" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.ArrayList" %>
@@ -33,16 +33,10 @@
             }
             ;
 
-            if (sign_id.value.length < 4) {
-                alert("아이디를 4자 이상 입력하세요");
-                sign_id.focus();
-                return;
-            }
-
             if (sign_pw.value == "") {
                 alert("비밀번호를 입력하세요");
                 sign_pw.focus();
-                return;
+                return;ㅔ
             }
             ;
 
@@ -84,12 +78,11 @@
         <div class=info>store name
             <select name="storeCharName" id="selectbox">
                 <%
-                    ownerDAO ownerDAO = new ownerDAO();
-                    ArrayList<String> ownerName = ownerDAO.getStoreName();
+                    OwnerDAO OwnerDAO = new OwnerDAO();
+                    ArrayList<String> ownerName = OwnerDAO.getStoreName();
                     for (int i = 0; i < ownerName.size(); i++) {
                 %>
-                <option value="<%=ownerName.get(i) %>"><%=ownerName.get(i)%>
-                </option>
+                <option value="<%=ownerName.get(i) %>"><%=ownerName.get(i)%></option>
                 <%
                     }
                 %>

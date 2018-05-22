@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="owner.ownerDAO" %>
+<%@ page import="owner.OwnerDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <jsp:useBean id="owner" class="owner.Owner" scope="page"/>
 <jsp:setProperty name="owner" property="ownerLoginId"/>
@@ -18,8 +18,21 @@
 <%
     Boolean resultGetOwnerId;
     PrintWriter printWriter = response.getWriter();
+    String userId = null;
+
+    if (session.getAttribute("ownerLoginId") != null) {
+        userId = (String) session.getAttribute("ownerLoginId");
+    }
+    if (userId != null) {
+        printWriter.println("<script>");
+        printWriter.println("alert('이미 로그인이 되어있습니다')");
+        printWriter.println("location.href = 'main.jsp'");
+        printWriter.println("</script>");
+    }
+
     String selectedStoreName = request.getParameter("storeCharName").toString();
-    System.out.println("선택 가게 확인 :" + selectedStoreName);
+    System.out.println("선택  가게 확인 :" + selectedStoreName);
+
 
     if (owner.getOwnerLoginId() == null || owner.getOwnerPass() == null || owner.getOwnerName() == null || owner.getOwnerPhone() == null || selectedStoreName == null) {
         printWriter.println("<script>");
@@ -28,8 +41,8 @@
         printWriter.println("</script>");
     } else {
 
-        ownerDAO ownerDAO = new ownerDAO();
-        int result = ownerDAO.join(owner, selectedStoreName);
+        OwnerDAO OwnerDAO = new OwnerDAO();
+        int result = OwnerDAO.join(owner, selectedStoreName);
 
         if (result == -3) {
             printWriter.println("<script>");
@@ -48,7 +61,7 @@
             printWriter.println("</script>");
         } else {
 
-            int result2 = ownerDAO.setOwnerIdIntoStore(owner.getOwnerLoginId(), selectedStoreName);
+            int result2 = OwnerDAO.setOwnerIdIntoStore(owner.getOwnerLoginId(), selectedStoreName);
             if (result2 == -1) {
                 printWriter.println("<script>");
                 printWriter.println("alert('ownerId를 가져오지 못했음')");

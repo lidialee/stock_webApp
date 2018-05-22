@@ -4,13 +4,13 @@ import java.sql.*;
 import java.util.*;
 
 // 디비를 사용해 데이터를 조회하거나 조작하는 기능을 전담하는 클래스
-public class ownerDAO {
+public class OwnerDAO {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet resultSet;
     private String SQL_instruct;
 
-    public ownerDAO(){
+    public OwnerDAO() {
         try {
             String dbURL = "jdbc:mysql://localhost:3306/beetle";
             String dbID = "root";
@@ -25,10 +25,10 @@ public class ownerDAO {
 
     /**
      * return
-     *  1  : 로그인 성공
+     * 1  : 로그인 성공
      * -2  : 데이터베이스 오류
      * -1  : 아이디가 없음
-     *  0  : 비밀번호 불일치
+     * 0  : 비밀번호 불일치
      */
     public int login(String id, String pass) {
         SQL_instruct = "SELECT password FROM owner WHERE login_id = ?";
@@ -71,12 +71,29 @@ public class ownerDAO {
         return list;
     }
 
+    public String getOwnerStoreName(String loginId) {
+        SQL_instruct = "SELECT name FROM store WHERE owner_id = ?";
+        try {
+            pstmt = conn.prepareStatement(SQL_instruct);
+            pstmt.setString(1, loginId);
+            resultSet = pstmt.executeQuery();
+            if (resultSet.next())
+                return resultSet.getString(1);
+            else
+                return "empty";
+
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+        return "empty";
+    }
+
 
     /**
      * 이미 등록된 점포인지 확인
      * (첫번째)
      * return
-     *  1  : 등록가능
+     * 1  : 등록가능
      * -2  : 이미 등록된 매장
      * -1  : 쿼리 에러
      */
@@ -155,35 +172,17 @@ public class ownerDAO {
 
 
     /**
-     * 점주의 (login_id)를 통해서 점주의 (owner_id)를 구하고
-     * 구해진 owner_id를 선택된 지점의 owner_id값에 쓴다
+     * 점주의 (login_id)를 선택된 지점의 owner_id값에 쓴다
      */
-    public int setOwnerIdIntoStore(String loginId,String storeName){
-        String ownerId;
-        SQL_instruct = "SELECT owner_id FROM owner WHERE login_id = ?";
+    public int setOwnerIdIntoStore(String loginId, String storeName) {
+        SQL_instruct = "UPDATE store SET owner_id = ? WHERE name = ? ";
         try {
             pstmt = conn.prepareStatement(SQL_instruct);
             pstmt.setString(1, loginId);
-            resultSet = pstmt.executeQuery();
-
-            if (resultSet.next()) {
-                ownerId = resultSet.getString(1);
-                SQL_instruct = "UPDATE store SET owner_id = ? WHERE name = ? ";
-                try {
-                    pstmt = conn.prepareStatement(SQL_instruct);
-                    pstmt.setString(1, ownerId);
-                    pstmt.setString(2, storeName);
-                    return pstmt.executeUpdate();
-                }catch(SQLException e){
-                    System.out.println("위치확인1");
-                    System.out.println(e.getLocalizedMessage());
-                }
-            }else{
-                System.out.println("ownerId를 구하지 못한경우");
-                return -1;
-            }
-        } catch (Exception e) {
-            System.out.println("위치확인2");
+            pstmt.setString(2, storeName);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("위치확인1");
             System.out.println(e.getLocalizedMessage());
         }
         return -2;
@@ -206,9 +205,6 @@ public class ownerDAO {
 
         return buffer.toString();
     }
-
-
-
 
 
 

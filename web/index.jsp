@@ -25,19 +25,10 @@
                 login_pw.focus();
                 return;
             };
-            /******************************************************************
-             if(<!--아이디 혹은(||) 비밀번호가 회원가입 정보와 일치하지 않을 경우-->){
-          alert("아이디, 비밀번호가 일치하지 않습니다");
-          login_id.focus();
-          return;
-        } else {
-          alert("로그인 성공!");
-          location.href="search_product.html";
-          return;
-        };
-             *******************************************************************/
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
     <title>Golden Beetle</title>
 </head>
 <body>
@@ -64,7 +55,5 @@
     <input type="button" class="btn badge-dark" value="Sign-in" style="margin: 10px"
            onclick="location.href='/signin.jsp'">
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.js"></script>
 </body>
 </html>

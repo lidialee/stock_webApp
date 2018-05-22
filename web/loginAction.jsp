@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="owner.ownerDAO" %>
+<%@ page import="owner.OwnerDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <jsp:useBean id="owner" class="owner.Owner" scope="page"/>
 <jsp:setProperty name="owner" property="ownerLoginId"/>
@@ -14,13 +14,23 @@
 </head>
 <body>
 <%
-
-    ownerDAO ownerDAO = new ownerDAO();
-    int result = ownerDAO.login(owner.getOwnerLoginId(), owner.getOwnerPass());
     PrintWriter printWriter = response.getWriter();
+    String userId = null;
+
+    if (session.getAttribute("ownerLoginId") != null) {
+        userId = (String) session.getAttribute("ownerLoginId");
+    }
+    if (userId != null) {
+        printWriter.println("<script>");
+        printWriter.println("alert('이미 로그인이 되어있습니다')");
+        printWriter.println("location.href = 'main.jsp'");
+        printWriter.println("</script>");
+    }
+    OwnerDAO OwnerDAO = new OwnerDAO();
+    int result = OwnerDAO.login(owner.getOwnerLoginId(), owner.getOwnerPass());
 
     if (result == 1) {
-        session.setAttribute("ownerLoginId",owner.getOwnerLoginId());
+        session.setAttribute("ownerLoginId", owner.getOwnerLoginId());
         printWriter.println("<script>");
         printWriter.println("location.href = 'main.jsp'");
         printWriter.println("</script>");

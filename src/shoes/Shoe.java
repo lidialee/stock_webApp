@@ -1,20 +1,37 @@
 package shoes;
 
-public class Shoes {
-    private int shoeId;
+public class Shoe {
+    private int shoesId;
     private String name;
     private String brand;
     private String type;
+    private String color;
     private long price;
     private String sex;
     private int size;
+    private int stock;
 
-    public int getShoeId() {
-        return shoeId;
+    public Shoe() {
     }
 
-    public void setShoeId(int shoeId) {
-        this.shoeId = shoeId;
+    public Shoe(int shoesId, String name, String brand, String type, String color, long price, String sex, int size, int stock) {
+        this.shoesId = shoesId;
+        this.name = name;
+        this.brand = brand;
+        this.type = type;
+        this.color = color;
+        this.price = price;
+        this.sex = sex;
+        this.size = size;
+        this.stock = stock;
+    }
+
+    public int getShoesId() {
+        return shoesId;
+    }
+
+    public void setShoesId(int shoesId) {
+        this.shoesId = shoesId;
     }
 
     public String getName() {
@@ -41,6 +58,14 @@ public class Shoes {
         this.type = type;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public long getPrice() {
         return price;
     }
@@ -63,5 +88,13 @@ public class Shoes {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

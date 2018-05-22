@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="owner.ownerDAO" %>
+<%@ page import="owner.OwnerDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <jsp:useBean id="owner" class="owner.Owner" scope="page"/>
 <jsp:setProperty name="owner" property="ownerLoginId"/>
@@ -27,8 +27,8 @@
         printWriter.println("history.back()");
         printWriter.println("</script>");
     } else {
-        ownerDAO ownerDAO = new ownerDAO();
-        ownerDAO.test(selectedStoreName);
+        OwnerDAO OwnerDAO = new OwnerDAO();
+        OwnerDAO.test(selectedStoreName);
 
     }
 %>
