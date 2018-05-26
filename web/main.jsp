@@ -11,8 +11,63 @@
 <%
     String loginId = null;
     String storeName = null;
-    OwnerDAO OwnerDAO = new OwnerDAO();
+    String[] tempList;
+    String pkBrand="";
+    long pkMinPrice =0;
+    long pkMaxPrice=0;
+    String pkSex="";
+    String pkColor="";
+    String pkSize="";
+    String pkType="";
 
+    if (request.getParameter("brand") != null)
+        pkBrand = request.getParameter("brand");
+
+    if(request.getParameter("price_min")==null || request.getParameter("price_min")=="") {
+        System.out.println(request.getParameter("price_min"));
+        pkMinPrice = 0;
+    }
+    else
+        pkMinPrice = Long.parseLong(request.getParameter("price_min"));
+
+
+    if(request.getParameter("price_max")==null || request.getParameter("price_max")=="") {
+        System.out.println(request.getParameter("price_max"));
+        pkMaxPrice = 0;
+    }
+    else
+        pkMaxPrice = Long.parseLong(request.getParameter("price_max"));
+
+
+    if (request.getParameter("sex") != null) {
+        tempList = request.getParameterValues("sex");
+        for(int a = 0; a< tempList.length; a++) {
+            pkSex += tempList[a];
+            pkSex +="/";
+        }
+    }
+    if (request.getParameter("color") != null) {
+        tempList = request.getParameterValues("color");
+        for(int a = 0; a< tempList.length; a++) {
+            pkColor += tempList[a];
+            pkColor +="/";
+        }
+    }
+    if (request.getParameter("size") != null) {
+        tempList = request.getParameterValues("size");
+        for(int a = 0; a< tempList.length; a++) {
+            pkSize += tempList[a];
+            pkSize += "/";
+        }
+    }
+    if (request.getParameter("type") != null) {
+        tempList = request.getParameterValues("type");
+        for(int a = 0; a< tempList.length; a++) {
+            pkType += tempList[a];
+            pkType += "/";
+        }
+    }
+    OwnerDAO OwnerDAO = new OwnerDAO();
     try {
         if (session.getAttribute("ownerLoginId") != null) {
             loginId = (String) session.getAttribute("ownerLoginId");
@@ -31,6 +86,7 @@
         System.out.println(e.getLocalizedMessage());
     }
 %>
+
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
@@ -93,19 +149,17 @@
         <h1 class="sub_title"> 제품검색 </h1>
         <!--` 으로 브랜드, 성별, 색상, 사이즈, 카테고리 정보 서버로 보냄 -->
         <p id="search_list">
-            <form action="여기서 이제 ajax를 사용해야겟지" method="post">
+            <form action="./main.jsp" method="get">
         <p class="search_box">
 
             <cation class="search_title">브랜드</cation>
             <select name="brand" id="brand" class="select_box">
                 <%
                     ShoesDAO shoesDAO = new ShoesDAO();
-                    //shoesDAO.getOwnerShoesInfo(loginId);
                     ArrayList<String> brandList = shoesDAO.getBrandName();
                     for (int i = 0; i < brandList.size(); i++) {
                 %>
-                <option value="<%=brandList.get(i) %>"><%=brandList.get(i)%>
-                </option>
+                <option value="<%=brandList.get(i) %>"><%=brandList.get(i)%></option>
                 <%
                     }
                 %>
@@ -114,29 +168,30 @@
         </p>
         <p class="search_box">
             <cation class="search_title">성별</cation>
-            <input type="checkbox" value="man" name="sex"/>남</checkbox>
-            <input type="checkbox" value="woman" name="sex"/>여</checkbox>
+            <input type="checkbox" value="남" name="sex"/>남</checkbox>
+            <input type="checkbox" value="여" name="sex"/>여</checkbox>
         </p>
         <p class="search_box">
             <cation class="search_title">가격</cation>
-            <input type="text" class="price_input" name="price_min" value="0" size="10"><a> 원 ~ </a>
-            <input type="text" class="price_input" name="price_max" value="10000000" size="10"><a> 원</a>
+            <input type="text" class="price_input"  name="price_min" size="10" ><a> 원 ~ </a>
+            <input type="text" class="price_input"  name="price_max" size="10" ><a> 원</a>
             <!-- 가격이 0~10000000인지 확인! -->
         </p>
         <p class="search_box">
             <cation class="search_title">색상</cation>
         <div>
-            <input type="checkbox" name="color" value="red"/>빨강 </checkbox>
-            <input type="checkbox" name="color" value="orange"/>주황 </checkbox>
-            <input type="checkbox" name="color" value="yellow"/>노랑 </checkbox>
-            <input type="checkbox" name="color" value="green"/>초록 </checkbox>
-            <input type="checkbox" name="color" value="blue"/>파랑 </checkbox>
-            <input type="checkbox" name="color" value="navy"/>남색 </checkbox>
-            <input type="checkbox" name="color" value="violet"/>보라 </checkbox>
-            <input type="checkbox" name="color" value="white"/>흰색 </checkbox>
-            <input type="checkbox" name="color" value="black"/>검정 </checkbox>
-            <input type="checkbox" name="color" value="gray"/>회색 </checkbox>
-            <input type="checkbox" name="color" value="pattern"/>패턴 </checkbox>
+            <input type="checkbox" name="color" value="빨강"/>빨강 </checkbox>
+            <input type="checkbox" name="color" value="주황"/>주황 </checkbox>
+            <input type="checkbox" name="color" value="노랑"/>노랑 </checkbox>
+            <input type="checkbox" name="color" value="초록"/>초록 </checkbox>
+            <input type="checkbox" name="color" value="파랑"/>파랑 </checkbox>
+            <input type="checkbox" name="color" value="남색"/>남색 </checkbox>
+            <input type="checkbox" name="color" value="보라"/>보라 </checkbox>
+            <input type="checkbox" name="color" value="흰색"/>흰색 </checkbox>
+            <input type="checkbox" name="color" value="검정"/>검정 </checkbox>
+            <input type="checkbox" name="color" value="회색"/>회색 </checkbox>
+            <input type="checkbox" name="color" value="갈색"/>갈색 </checkbox>
+            <input type="checkbox" name="color" value="패턴"/>패턴 </checkbox>
         </div>
         </p>
         <p class="search_box">
@@ -151,23 +206,23 @@
         <p class="search_box">
             <cation class="search_title">카테고리</cation>
         <div>
-            <input type="checkbox" name="type" value="converse"/>컨버스화</checkbox>
-            <input type="checkbox" name="type" value="slip-on"/>슬립온</checkbox>
-            <input type="checkbox" name="type" value="sneakers"/>스니커즈</checkbox>
-            <input type="checkbox" name="type" value="running"/>런닝화</checkbox>
-            <input type="checkbox" name="type" value="shoes"/>구두</checkbox>
-            <input type="checkbox" name="type" value="sandal"/>샌들</checkbox>
+            <input type="checkbox" name="type" value="컨버스화"/>컨버스화</checkbox>
+            <input type="checkbox" name="type" value="슬립온"/>슬립온</checkbox>
+            <input type="checkbox" name="type" value="스니커즈"/>스니커즈</checkbox>
+            <input type="checkbox" name="type" value="런닝화"/>런닝화</checkbox>
+            <input type="checkbox" name="type" value="구두"/>구두</checkbox>
+            <input type="checkbox" name="type" value="샌들"/>샌들</checkbox>
         </div>
         </p>
-        <input type="submit" value="검색" class="search_btn"> <!--검색버튼입니다!! -->
+        <input type="submit" value="검색" class="search_btn" > <!--검색버튼입니다!! -->
         </form>
         </p>
-        <!--제품검색결과를 표로 보여줍니다. (여기선 가격 추가) -->
         <p>
 
         <table class="product_info_table">
             <thead>
             <tr>
+                <th>제품번호</th>
                 <th>제품명</th>
                 <th>브랜드</th>
                 <th>카테고리</th>
@@ -179,19 +234,42 @@
             </tr>
             </thead>
             <tbody>
+            <%
+                ArrayList<Shoe> list;
+                list =  shoesDAO.resultShoesList(loginId,pkBrand,pkMinPrice,pkMaxPrice,pkSex,pkColor,pkSize,pkType);
+                if(list!=null){
+                    for (int a = 0; a < list.size(); a++) {
+                        Shoe s = list.get(a);
+            %>
             <tr>
-                <td>스피드러너 2018 뉴제너레이션</td>
-                <td>아디다스</td>
-                <td>스니커즈</td>
-                <td>여</td>
-                <td>빨강</td>
-                <td>250</td>
-                <td>129000</td>
-                <td>20</td>
+
+                <td><%=s.getShoesId()%>
+                </td>
+                <td><%=s.getName()%>
+                </td>
+                <td><%=s.getBrand()%>
+                </td>
+                <td><%=s.getType()%>
+                </td>
+                <td><%=s.getSex()%>
+                </td>
+                <td><%=s.getColor()%>
+                </td>
+                <td><%=s.getSize()%>
+                </td>
+                <td><%=s.getPrice()%>
+                </td>
+                <td><%=s.getStock()%>
+                </td>
+
             </tr>
+            <%
+                    }
+                }
+
+            %>
             </tbody>
         </table>
-
         </p>
     </div>
 </div>

@@ -53,25 +53,38 @@
     </aside>
     <div id="content">
         <h1 class="subtitle">My 재고관리</h1>
-        <form action="http//:localhost/search.php" method="post">
+        <%--<form action="http//:localhost/search.php" method="post">--%>
+        <
             <p>
 
             <table class="my_stock_table" >
                 <caption class="table_title"><a class="user_store"> 명동중앙점 </a> 점</caption>
                 <thead>
                 <tr>
-                    <th>제품ID</th>  <th>제품번호</th>  <th>사이즈</th> <th>재고량</th> <th>재고변경</th>
+                    <th>제품명</th>
+                    <th>브랜드</th>
+                    <th>성별</th>
+                    <th>색상</th>
+                    <th>사이즈</th>
+                    <th>재고</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>12121212</td> <td>신발</td> <td>신발</td> <td>신발</td> <td><button class="stock_btns">+</button><button class="stock_btns">-</button></td>
+                    <td>스피드러너</td>
+                    <td>아디다스</td>
+                    <td>여</td>
+                    <td>검정</td>
+                    <td>240</td>
+                    <td>40</td>
+
+                    <td><button class="stock_btns">+</button><button class="stock_btns">-</button></td>
                 </tr>
                 </tbody>
             </table>
             </p>
             <input type="submit" value="재고변경" class="search_btn">
-        </form>
+        <%--</form>--%>
 
     </div>
 

@@ -22,6 +22,30 @@ public class ShoesSearchServlet extends HttpServlet {
         String[] color = request.getParameterValues("color");
         String[] size = request.getParameterValues("size");
         String[] type = request.getParameterValues("type");
+
+        System.out.println("brand : "+brand);
+        System.out.println("minPrice : "+minPrice);
+        System.out.println("maxPrice : "+maxPrice);
+
+        for(int a =0;a<sex.length;a++){
+            System.out.println("sex : "+sex);
+        }
+
+
+        for(int a =0;a<color.length;a++){
+            System.out.println("color : "+color);
+        }
+
+
+        for(int a =0;a<size.length;a++){
+            System.out.println("size : "+size);
+        }
+
+
+        for(int a =0;a<type.length;a++){
+            System.out.println("type : "+type);
+        }
+
         //response.getWriter().writer(getJSON())
     }
 

@@ -1,6 +1,7 @@
 package shoes;
 
 public class Shoe {
+    private int boardNum;
     private int shoesId;
     private String name;
     private String brand;
@@ -11,8 +12,21 @@ public class Shoe {
     private int size;
     private int stock;
 
-    public Shoe() {
+    public Shoe() {}
+
+    public Shoe(int boardNum,int shoesId, String name, String brand, String type, String color, long price, String sex, int size, int stock) {
+        this.boardNum = boardNum;
+        this.shoesId = shoesId;
+        this.name = name;
+        this.brand = brand;
+        this.type = type;
+        this.color = color;
+        this.price = price;
+        this.sex = sex;
+        this.size = size;
+        this.stock = stock;
     }
+
 
     public Shoe(int shoesId, String name, String brand, String type, String color, long price, String sex, int size, int stock) {
         this.shoesId = shoesId;
@@ -24,6 +38,14 @@ public class Shoe {
         this.sex = sex;
         this.size = size;
         this.stock = stock;
+    }
+
+    public int getBoardNum() {
+        return boardNum;
+    }
+
+    public void setBoardNum(int boardNum) {
+        this.boardNum = boardNum;
     }
 
     public int getShoesId() {
