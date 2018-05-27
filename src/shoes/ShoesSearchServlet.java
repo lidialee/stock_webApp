@@ -8,65 +8,41 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet(name = "ShoesSearchServlet")
+@WebServlet("/ShoesSearchServlet")
 public class ShoesSearchServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-
-        String brand = request.getParameter("brand");
-        String[] sex = request.getParameterValues("sex");
-        String minPrice = request.getParameter("price_min");
-        String maxPrice = request.getParameter("price_max");
-        String[] color = request.getParameterValues("color");
-        String[] size = request.getParameterValues("size");
-        String[] type = request.getParameterValues("type");
-
-        System.out.println("brand : "+brand);
-        System.out.println("minPrice : "+minPrice);
-        System.out.println("maxPrice : "+maxPrice);
-
-        for(int a =0;a<sex.length;a++){
-            System.out.println("sex : "+sex);
-        }
-
-
-        for(int a =0;a<color.length;a++){
-            System.out.println("color : "+color);
-        }
-
-
-        for(int a =0;a<size.length;a++){
-            System.out.println("size : "+size);
-        }
-
-
-        for(int a =0;a<type.length;a++){
-            System.out.println("type : "+type);
-        }
-
-        //response.getWriter().writer(getJSON())
+        String shoesNameInput = request.getParameter("ShoesNameInput");
+        String loginID = request.getParameter("OwnerLogin");
+        System.out.println("in doPost : "+loginID);
+        System.out.println("nameINPUT : "+ shoesNameInput);
+        response.getWriter().write(getJSON(shoesNameInput,"checkID"));
     }
 
-    public String getJSON(String loginId, String brand, String[] sex, String min, String max,
-                          String[] color, String[] size, String[] type){
+    public String getJSON(String shoesNameInput,String loginID){
+        if(shoesNameInput == null) shoesNameInput = "";
+        if(loginID.equals("")) {
+            System.out.println("problem occur");
+            return "";
+        }
+
         StringBuffer result = new StringBuffer();
-        result.append("{\result\":[");
-        ShoesDAO shoesDao = new ShoesDAO();
-        ArrayList<Shoe> list = new ArrayList();
-        // list =  shoesDao의 원하는 조건에 맞는 신발 가져오기 함수 부르기
-        // 이 함수에서 stock을 가져오도록 해야됩니다.
-        // 그냥 shoes 테이블엔 재고가 없는거 아시죠?
+        result.append("{\"result\":[");
+        ShoesDAO shoesDAO = new ShoesDAO();
+        ArrayList<Shoe> list = shoesDAO.resultSearchByName(loginID,shoesNameInput);
         for(int i =0;i< list.size();i++){
-            result.append("{\"value\": \""+list.get(i).getName()+ "\"},");
-            result.append("[{\"value\": \""+list.get(i).getBrand()+ "\"},");
-            result.append("{\"value\": \""+list.get(i).getType()+ "\"},");
-            result.append("{\"value\": \""+list.get(i).getSex()+ "\"},");
-            result.append("{\"value\": \""+list.get(i).getColor()+ "\"},");
-            result.append("{\"value\": \""+list.get(i).getPrice()+ "\"},");
-            result.append("{\"value\": \""+list.get(i).getSize()+ "\"},");
-            result.append("{\"value\": \""+list.get(i).getStock()+ "\"},");
+            System.out.println("in getjson : "+list.get(i).getName());
+            result.append("[{\"value\":\""+list.get(i).getShoesId()+ "\"},");
+            result.append("{\"value\":\""+list.get(i).getName()+ "\"},");
+            result.append("{\"value\":\""+list.get(i).getBrand()+ "\"},");
+            result.append("{\"value\":\""+list.get(i).getType()+ "\"},");
+            result.append("{\"value\":\""+list.get(i).getSex()+ "\"},");
+            result.append("{\"value\":\""+list.get(i).getColor()+ "\"},");
+            result.append("{\"value\":\""+list.get(i).getPrice()+ "\"},");
+            result.append("{\"value\":\""+list.get(i).getSize()+ "\"},");
+            result.append("{\"value\":\""+list.get(i).getStock()+ "\"}],");
         }
         result.append("]}");
         return result.toString();
