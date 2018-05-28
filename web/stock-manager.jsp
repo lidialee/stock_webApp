@@ -31,37 +31,11 @@
     </script>
     <%
             }
-
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
     %>
-    <script type="text/javascript">
-        var request = new XMLHttpRequest();
-        function searchFuntion() {
-            request.open("Post", "./ShoesSearchServlet?ShoesNameInput=" + encodeURIComponent(document.getElementById("ShoesNameInput").value), true);
-            request.send(null);
-            request.onreadystatechange = searchProcess;
 
-        }
-
-        function searchProcess() {
-            var table = document.getElementById("ajaxTable");
-            table.innerHTML = "";
-            if (request.readyState == 4 && request.status == 200) {
-                var object = eval('(' + request.responseText + ')');
-                var result = object.result;
-                for (var i = 0; i < result.length; i++) {
-                    var row = table.insertRow(0);
-                    for (var j = 0; j < result[i].length; j++) {
-                        var cell = row.insertCell(j);
-                        cell.innerHTML = result[i][j].value;
-                    }
-                }
-            }
-        }
-
-    </script>
 </head>
 <body>
 <hgroup>
@@ -70,7 +44,7 @@
         <div class="user_text">
             <%--<a class="user_nick" id="onlyHere"><%=loginID2%></a> 님--%>
             <%--<input type="text" id="userName" value="<%=loginID2%>" readonly>--%>
-                <div type="text" id="<%=loginID2%>"><%=loginID2%></div>
+                <a type="text" id="<%=loginID2%>"><%=loginID2%></a>
             <%--&lt;%&ndash;회원정보에서 점주의 이름 불러오기 &ndash;%&gt;--%>
         </div>
         <div class="user_text">
@@ -123,7 +97,6 @@
             </div>
         </div>
 
-
         <p>
         <table class="my_stock_table">
             <thead>
@@ -133,13 +106,47 @@
                 <th>성별</th>
                 <th>색상</th>
                 <th>사이즈</th>
-                <th>재고</th>
-                <th>재고</th>
-                <th>재고</th>
-                <th>재고</th>
+                <th>타입</th>
+                <th>가격</th>
+                <th>재고량</th>
             </tr>
             </thead>
-            <tbody id="ajaxTable"></tbody>
+            <tbody id="resultTable" style="font-size: 12px;"  >
+            <%
+                ArrayList<Shoe> list;
+                ShoesDAO shoesDAO = new ShoesDAO();
+                list =  shoesDAO.getAllShoes(loginID2);
+                if(list!=null){
+                    for (int a = 0; a < list.size(); a++) {
+                        Shoe s = list.get(a);
+            %>
+            <tr>
+                <td><%=s.getName()%>
+                </td>
+                <td><%=s.getBrand()%>
+                </td>
+                <td><%=s.getSex()%>
+                </td>
+                <td><%=s.getColor()%>
+                </td>
+                <td><%=s.getSize()%>
+                </td>
+                <td><%=s.getType()%>
+                </td>
+                <td><%=s.getPrice()%>
+                </td>
+                <td>
+                    <button class="stock_btns" id="<%=s.getShoesId()%>_plus"  >+</button>
+                    <input type="text" id="<%=s.getShoesId()%>" style="width:35px" value="<%=s.getStock()%> ">
+                    <button class="stock_btns" id="<%=s.getShoesId()%>_minus" >-</button>
+                </td>
+            </tr>
+            <%
+                    }
+                }
+
+            %>
+            </tbody>
         </table>
         </p>
         <input type="submit" value="재고변경" class="search_btn">

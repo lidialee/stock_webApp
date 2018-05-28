@@ -190,21 +190,35 @@ public class ShoesDAO {
     public ArrayList<Shoe> resultSearchByName(String loginId, String inputName) {
         SQL_instruct = "SELECT T.*, store_stock.stock  FROM (SELECT shoes_id, name, brand, type, price, sex, size, color FROM shoes WHERE name LIKE ?)T INNER JOIN store_stock ON T.shoes_id = store_stock.shoes_id WHERE store_stock.login_id = ? ORDER BY T.shoes_id";
         ArrayList<Shoe> list = new ArrayList();
-
         try {
             pstmt = conn.prepareStatement(SQL_instruct);
             pstmt.setString(1, "%"+inputName+"%");
             pstmt.setString(2, loginId);
             rs = pstmt.executeQuery();
-
             while (rs.next()) {
                 System.out.println("*****");
                 list.add(new Shoe(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
                         rs.getString(8), rs.getLong(5), rs.getString(6), rs.getInt(7), rs.getInt(9)));
             }
-
         } catch (Exception e) {
             System.out.println("resultSearchByName : " + e.getLocalizedMessage());
+        }
+        return list;
+    }
+
+    public ArrayList<Shoe> getAllShoes(String loginID){
+        SQL_instruct = "SELECT shoes.*, store_stock.stock FROM shoes INNER JOIN store_stock ON shoes.shoes_id = store_stock.shoes_id WHERE store_stock.login_id = ? ORDER BY shoes.shoes_id";
+        ArrayList<Shoe> list = new ArrayList();
+        try {
+            pstmt = conn.prepareStatement(SQL_instruct);
+            pstmt.setString(1, loginID);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                list.add(new Shoe(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(8), rs.getLong(5), rs.getString(6), rs.getInt(7), rs.getInt(9)));
+            }
+        } catch (Exception e) {
+            System.out.println("getAllShoes : " + e.getLocalizedMessage());
         }
         return list;
     }

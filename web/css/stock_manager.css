@@ -44,7 +44,7 @@ aside {
     text-align: center;
     font-size: 3rem;
     color: rgb(232,50,0);
-    font-family: 'Alfa Slab One', cursive;
+    font-family: 'Nanum Gothic', cursive;
     font-weight: lighter;
 }
 .user_info {
@@ -117,4 +117,8 @@ tr: hover {  background-color: #efefef; }
     weight: bold;
     border: 1px solid #c00;
     margin-right: 2px;
+}
+
+.table_font{
+    font-size: 8px;
 }
