@@ -197,7 +197,6 @@
         <p class="search_box">
             <cation class="search_title">사이즈</cation>
         <div>
-
             <%for (int a = 0; a < 15; a++) {%>
             <input type="checkbox" name="size" value="<%=(5*a)+220%>"/><%=(5*a)+220%></checkbox>
             <%}%>

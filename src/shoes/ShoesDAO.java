@@ -187,6 +187,7 @@ public class ShoesDAO {
         return resultList;
     }
 
+    // 이름 검색 결과
     public ArrayList<Shoe> resultSearchByName(String loginId, String inputName) {
         SQL_instruct = "SELECT T.*, store_stock.stock  FROM (SELECT shoes_id, name, brand, type, price, sex, size, color FROM shoes WHERE name LIKE ?)T INNER JOIN store_stock ON T.shoes_id = store_stock.shoes_id WHERE store_stock.login_id = ? ORDER BY T.shoes_id";
         ArrayList<Shoe> list = new ArrayList();
@@ -206,6 +207,7 @@ public class ShoesDAO {
         return list;
     }
 
+    //  (조건x) 주인이 등록한 신발 모두 가져오기
     public ArrayList<Shoe> getAllShoes(String loginID){
         SQL_instruct = "SELECT shoes.*, store_stock.stock FROM shoes INNER JOIN store_stock ON shoes.shoes_id = store_stock.shoes_id WHERE store_stock.login_id = ? ORDER BY shoes.shoes_id";
         ArrayList<Shoe> list = new ArrayList();
@@ -221,6 +223,36 @@ public class ShoesDAO {
             System.out.println("getAllShoes : " + e.getLocalizedMessage());
         }
         return list;
+    }
+
+
+    // 재고량 업데이트 함수 UPDATE store SET owner_id = ? WHERE name = ?
+    public int changeStock(int stock,int shoesID, String loginID){
+        SQL_instruct = "UPDATE store_stock SET stock = ? WHERE login_id = ? AND shoes_id = ?";
+        try {
+            pstmt = conn.prepareStatement(SQL_instruct);
+            pstmt.setInt(1, stock);
+            pstmt.setString(2, loginID);
+            pstmt.setInt(3, shoesID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("changeStock에서 문제 발생 "+e.getLocalizedMessage());
+        }
+
+        return -1;
+    }
+
+    public int deleteShoes(int shoesID, String loginID){
+        SQL_instruct = "DELETE FROM store_stock WHERE login_id = ? AND shoes_id = ?";
+        try {
+            pstmt = conn.prepareStatement(SQL_instruct);
+            pstmt.setString(1, loginID);
+            pstmt.setInt(2, shoesID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("deleteShoes 문제 발생 "+e.getLocalizedMessage());
+        }
+        return -1;
     }
 
 }
