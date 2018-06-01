@@ -31,9 +31,6 @@
     }
 
     String selectedStoreName = request.getParameter("storeCharName").toString();
-    System.out.println("선택  가게 확인 :" + selectedStoreName);
-
-
     if (owner.getOwnerLoginId() == null || owner.getOwnerPass() == null || owner.getOwnerName() == null || owner.getOwnerPhone() == null || selectedStoreName == null) {
         printWriter.println("<script>");
         printWriter.println("alert('입력 안 된 사항이 있습니다')");

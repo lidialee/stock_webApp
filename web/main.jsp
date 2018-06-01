@@ -99,22 +99,17 @@
     <h1 class="main_title">ABC-MART</h1>
     <div class="user_info">
         <div class="user_text">
-            <a class="user_nick"><%=loginId%>
-            </a> 님
-            <%--회원정보에서 점주의 이름 불러오기 --%>
+            <a class="user_nick"><%=loginId%>님</a>
         </div>
         <div class="user_text">
-            <a class="user_nick"><%=storeName%>
-            </a>
-            <%--회원정보에서 지점명 불러오기 --%>
+            <a class="user_nick"><%=storeName%></a>
         </div>
         <a href="logoutAction.jsp" class="logout_click">로그아웃</a>
-        <!-- 로그인페이지로 넘어가면서, 로그인 정보 모두 초기화 -->
+
     </div>
 </hgroup>
 
 <div id="grid">
-
     <aside>
         <div id="menu" class="index">
             <nav class="sub_nav">
@@ -147,7 +142,6 @@
 
     <div id="content">
         <h1 class="sub_title"> 제품검색 </h1>
-        <!--` 으로 브랜드, 성별, 색상, 사이즈, 카테고리 정보 서버로 보냄 -->
         <p id="search_list">
             <form action="./main.jsp" method="get">
         <p class="search_box">

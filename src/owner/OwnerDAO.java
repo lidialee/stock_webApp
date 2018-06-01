@@ -57,7 +57,7 @@ public class OwnerDAO {
      */
     public ArrayList<String> getStoreName() {
         ArrayList<String> list = new ArrayList();
-        SQL_instruct = "SELECT name FROM store";
+        SQL_instruct = "SELECT name FROM store WHERE owner_id=1";
         try {
             pstmt = conn.prepareStatement(SQL_instruct);
             resultSet = pstmt.executeQuery();
