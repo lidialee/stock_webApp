@@ -106,61 +106,61 @@
                 <button class="btn btn-danger btn-rounded" type="button" style="margin-left:10px; float:right; font-color:yellow;">입고 등록</button>
             </div>
         </div>
+    </div>
 
-        <div>
-            <table class="my_stock_table">
-                <thead>
-                <tr>
-                    <th>제품명</th>
-                    <th>브랜드</th>
-                    <th>성별</th>
-                    <th>색상</th>
-                    <th>사이즈</th>
-                    <th>타입</th>
-                    <th>가격</th>
-                    <th>재고량</th>
-                </tr>
-                </thead>
-                <tbody id="resultTable" style="font-size: 12px;">
-                <%
-                    ArrayList<Shoe> list;
-                    list = shoesDAO.getAllShoes(loginId);
-                    if (list != null) {
-                        for (int a = 0; a < list.size(); a++) {
-                            Shoe s = list.get(a);
-                            int shoes_id = s.getShoesId();
-                %>
-                <tr>
-                    <td style="width:430px"><%=s.getName()%>
-                    </td>
-                    <td style="width:220px"><%=s.getBrand()%>
-                    </td>
-                    <td style="width:100px"><%=s.getSex()%>
-                    </td>
-                    <td style="width:100px"><%=s.getColor()%>
-                    </td>
-                    <td style="width:130px"><%=s.getSize()%>
-                    </td>
-                    <td style="width:130px"><%=s.getType()%>
-                    </td>
-                    <td style="width:150px"><%=s.getPrice()%>원
-                    </td>
-                    <td style="width:600px">
-                        <button class="stock_btns" id="<%=shoes_id%>_plus" onclick="plus_One('<%=shoes_id%>');">+</button>
-                        <input type="text" id="<%=shoes_id%>" style="width:35px" value="<%=s.getStock()%> ">
-                        <button class="stock_btns" id="<%=shoes_id%>_minus" onclick="minus_One('<%=shoes_id%>');">-</button>
-                        <button class="stock_btns" id="<%=shoes_id%>_finish" onclick="goStockUpdate('<%=shoes_id%>')">완료</button>
-                        <button class="stock_btns" id="<%=s.getShoesId()%>_remove" onclick="goDeleteStock('<%=shoes_id%>')">삭제</button>
-                    </td>
-                </tr>
-                <%
-                        }
-                    }
+    <div class="col-lg-13">
+    <table class="my_stock_table">
+        <thead>
+        <tr style="font-size:12px">
+            <th>제품명</th>
+            <th>브랜드</th>
+            <th>성별</th>
+            <th>색상</th>
+            <th>사이즈</th>
+            <th>타입</th>
+            <th>가격</th>
+            <th>재고량</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+            ArrayList<Shoe> list;
+            list = shoesDAO.getAllShoes(loginId);
+            if (list != null) {
+                for (int a = 0; a < list.size(); a++) {
+                    Shoe s = list.get(a);
+                    int shoes_id = s.getShoesId();
+        %>
+        <tr>
+            <td style="width:430px;font-size:12px;"><%=s.getName()%>
+            </td>
+            <td style="width:220px;font-size:12px;"><%=s.getBrand()%>
+            </td>
+            <td style="width:100px;font-size:12px;"><%=s.getSex()%>
+            </td>
+            <td style="width:100px;font-size:12px;"><%=s.getColor()%>
+            </td>
+            <td style="width:130px;font-size:12px;"><%=s.getSize()%>
+            </td>
+            <td style="width:130px;font-size:12px;"><%=s.getType()%>
+            </td>
+            <td style="width:150px;font-size:12px;"><%=s.getPrice()%>원
+            </td>
+            <td style="width:600px;font-size:12px;">
+                <button class="stock_btns" id="<%=shoes_id%>_plus" onclick="plus_One('<%=shoes_id%>');">+</button>
+                <input type="text" id="<%=shoes_id%>" style="width:35px" value="<%=s.getStock()%> ">
+                <button class="stock_btns" id="<%=shoes_id%>_minus" onclick="minus_One('<%=shoes_id%>');">-</button>
+                <button class="stock_btns" id="<%=shoes_id%>_finish" onclick="goStockUpdate('<%=shoes_id%>')">완료</button>
+                <button class="stock_btns" id="<%=s.getShoesId()%>_remove" onclick="goDeleteStock('<%=shoes_id%>')">삭제</button>
+            </td>
+        </tr>
+        <%
+                }
+            }
 
-                %>
-                </tbody>
-            </table>
-        </div>
+        %>
+        </tbody>
+    </table>
     </div>
 </div>
 

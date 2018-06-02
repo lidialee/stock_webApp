@@ -83,11 +83,13 @@ aside {
     text-align: right;
 }
 table.my_stock_table {
+    font-size:12px;
     border-collapse: collapse;
     text-align: center;
     line-height: 1.5;
     border-top: 3px solid #ccc;
     border-bottom: 3px solid #ccc;
+    margin-bottom:10px;
 }
 table.my_stock_table thead th {
     padding: 10px;
@@ -127,3 +129,4 @@ tr: hover {  background-color: #efefef; }
     font-weight:500;
     font-family:'Jeju Gothic';
 }
+

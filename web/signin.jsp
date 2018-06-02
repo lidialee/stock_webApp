@@ -45,6 +45,7 @@
                 sign_pw.focus();
                 return;
             }
+            ;
 
             if (sign_phone.value == "") {
                 alert("전화번호를 입력하세요");
@@ -52,14 +53,6 @@
                 return;
             }
             ;
-
-            if (sign_phone.value.length < 10 || sign_phone.value.length > 11) {
-                alert("전화번호를 다시 입력해주세요");
-                sign_phone.focus();
-                return;
-            }
-            ;
-
         };
     </script>
 
