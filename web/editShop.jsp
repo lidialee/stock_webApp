@@ -39,9 +39,9 @@
 <body>
 
 
-<section class="container">
+
     <a class="btn btn-primary mx-1 mt-2" data-toggle="modal" href="#editShopModal">가게정보수정하기</a>
-</section>
+
 
 <div class="modal fade" id="editShopModal" tabindex="-1" role="dialog" aria-labelledbt="modal" aria-hidden="true">
     <div class="modal-dialog">

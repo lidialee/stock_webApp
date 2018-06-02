@@ -111,8 +111,8 @@ table.my_stock_table td {
 }
 tr: hover {  background-color: #efefef; }
 .stock_btns {
-    border-radius: 50%;
-    background-color: white;
+    border-radius: 20%;
+    background-color: red;
     color: #c00;
     weight: bold;
     border: 1px solid #c00;
@@ -121,4 +121,9 @@ tr: hover {  background-color: #efefef; }
 
 .table_font{
     font-size: 8px;
+}
+.title{
+    font-size :32px;
+    font-weight:500;
+    font-family:'Jeju Gothic';
 }

@@ -94,11 +94,13 @@ table { width: 98% }
     text-align: right;
 }
 table.product_info_table {
+    font-size:12px;
     border-collapse: collapse;
     text-align: center;
     line-height: 1.5;
     border-top: 3px solid #ccc;
     border-bottom: 3px solid #ccc;
+    margin-bottom:10px;
 }
 table.product_info_table thead th {
     padding: 10px;
@@ -121,3 +123,7 @@ table.product_info_table td {
     border-bottom: 1px solid #ccc;
 }
 tr: hover {  background-color: #efefef;}
+
+.tbody_custom_class{
+    font-size: 12px;
+}

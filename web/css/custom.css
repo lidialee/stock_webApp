@@ -1,0 +1,26 @@
+@import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+h1,h2,h3,h4{
+    font-family:'Jeju Gothic';
+}
+
+.navbar-brand{
+    font-family:'Jeju Gothic';
+}
+h5{
+    font-family:'Jeju Gothic';
+    font-size:18px;
+}
+body{
+    font-family:'Nanum Gothic';
+}
+
+.checkbox_custom{
+    margin-right:10px;
+    margin-left:10px;
+}
+
+.checkbox_size{
+    margin-right:5px;
+    margin-left:5px;
+}

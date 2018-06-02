@@ -32,7 +32,7 @@
     if (result == 1) {
         session.setAttribute("ownerLoginId", owner.getOwnerLoginId());
         printWriter.println("<script>");
-        printWriter.println("location.href = 'main.jsp'");
+        printWriter.println("location.href = 'mainTest.jsp'");
         printWriter.println("</script>");
 
     } else if (result == 0) {
