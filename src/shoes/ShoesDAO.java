@@ -60,7 +60,7 @@ public class ShoesDAO {
         String resultSQL = "";
 
         // 브랜드를 입력했을경우
-        if (!br.equals("")) {
+        if (!br.equals("")&&!br.equals("All")) {
             temp += "shoes.brand = '";
             temp += br;
             temp += "'";
@@ -254,5 +254,9 @@ public class ShoesDAO {
         }
         return -1;
     }
+
+
+
+
 
 }

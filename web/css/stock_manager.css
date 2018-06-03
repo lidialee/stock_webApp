@@ -115,6 +115,26 @@ tr: hover {  background-color: #efefef; }
 .stock_btns {
     border-radius: 20%;
     background-color: red;
+    font-color:black;
+    color: #c00;
+    weight: bold;
+    border: 1px solid #c00;
+    margin-right: 2px;
+}
+
+.stock_btns_minus {
+    border-radius: 20%;
+    background-color: blue;
+    font-color:white;
+    color: #c00;
+    weight: bold;
+    border: 1px solid #c00;
+    margin-right: 2px;
+}
+
+.stock_btns_other {
+    border-radius: 20%;
+    font-color:black;
     color: #c00;
     weight: bold;
     border: 1px solid #c00;

@@ -1,4 +1,10 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="owner.OwnerDAO" %>
+<%@ page import="store.StoreDAO" %>
+<%@ page import="shoes.ShoesDAO" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="store.Store" %>
+<%@ page import="shoes.Shoe" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
 <html>
@@ -9,6 +15,24 @@
     <link rel="stylesheet" type="text/css" href="css/login_style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
+
+    <%
+        String loginId = null;      //   사용자아이디, 세션으로 받아진다
+        OwnerDAO ownerDAO = new OwnerDAO();
+
+        // 세션으로 사용자아이디, 그리고 지점명, 지점정보 얻어오기
+        try {
+            if (session.getAttribute("ownerLoginId") != null){
+      %>
+    <script>
+        location.href = 'mainTest.jsp';
+    </script>
+    <%
+            }
+        } catch (Exception e) {
+            System.out.println("index에서 로그인 세션 유지에러"+e.getLocalizedMessage());
+        }
+    %>
     <script>
         function checkdata(){
             var login_id = document.getElementById("id");
@@ -26,6 +50,9 @@
                 return;
             };
         }
+
+
+
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.js"></script>

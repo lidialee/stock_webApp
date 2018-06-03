@@ -147,11 +147,11 @@
             <td style="width:150px;font-size:12px;"><%=s.getPrice()%>원
             </td>
             <td style="width:600px;font-size:12px;">
-                <button class="stock_btns" id="<%=shoes_id%>_plus" onclick="plus_One('<%=shoes_id%>');">+</button>
+                <button style="font-color:black;" id="<%=shoes_id%>_plus" onclick="plus_One('<%=shoes_id%>');">+</button>
                 <input type="text" id="<%=shoes_id%>" style="width:35px" value="<%=s.getStock()%> ">
-                <button class="stock_btns" id="<%=shoes_id%>_minus" onclick="minus_One('<%=shoes_id%>');">-</button>
-                <button class="stock_btns" id="<%=shoes_id%>_finish" onclick="goStockUpdate('<%=shoes_id%>')">완료</button>
-                <button class="stock_btns" id="<%=s.getShoesId()%>_remove" onclick="goDeleteStock('<%=shoes_id%>')">삭제</button>
+                <button id="<%=shoes_id%>_minus" onclick="minus_One('<%=shoes_id%>');">-</button>
+                <button id="<%=shoes_id%>_finish" onclick="goStockUpdate('<%=shoes_id%>')">완료</button>
+                <button id="<%=s.getShoesId()%>_remove" onclick="goDeleteStock('<%=shoes_id%>')">삭제</button>
             </td>
         </tr>
         <%

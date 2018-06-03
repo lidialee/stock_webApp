@@ -26,7 +26,7 @@
     if (userId != null) {
         printWriter.println("<script>");
         printWriter.println("alert('이미 로그인이 되어있습니다')");
-        printWriter.println("location.href = 'main.jsp'");
+        printWriter.println("location.href = 'mainTest.jsp'");
         printWriter.println("</script>");
     }
 

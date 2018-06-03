@@ -6,9 +6,9 @@ import java.util.*;
 // 디비를 사용해 데이터를 조회하거나 조작하는 기능을 전담하는 클래스
 public class OwnerDAO {
     private Connection conn;
-    private PreparedStatement pstmt,pstmt2;
-    private ResultSet resultSet, resultSet2;
-    private String SQL_instruct,SQL_instruct2;
+    private PreparedStatement pstmt;
+    private ResultSet resultSet;
+    private String SQL_instruct;
 
     public OwnerDAO() {
         try {
@@ -207,30 +207,6 @@ public class OwnerDAO {
     }
 
 
-    public ArrayList<String> getSharedStore(String storeName){
-        ArrayList<String> list = new ArrayList();
-        SQL_instruct = "SELECT store_1 FROM relation WHERE store_2=?";
-        SQL_instruct2 = "SELECT store_2 FROM relation WHERE store_1=?";
 
-        try {
-            pstmt = conn.prepareStatement(SQL_instruct);
-            pstmt2 = conn.prepareStatement(SQL_instruct2);
-            pstmt.setString(1, storeName);
-            pstmt2.setString(1, storeName);
-            resultSet = pstmt.executeQuery();
-            resultSet2 = pstmt2.executeQuery();
-
-            while (resultSet.next())
-                list.add(resultSet.getString(1));
-
-            while(resultSet2.next())
-                list.add(resultSet2.getString(1));
-
-        } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-        }
-        return list;
-
-    }
 
 }
