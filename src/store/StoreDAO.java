@@ -58,7 +58,7 @@ public class StoreDAO {
         return -1;
     }
 
-    // 공유 지점의 점주 아이디 가져오기
+    // (Share) 공유 지점의 점주 아이디 가져오기
     public ArrayList<String> getSharedOwnerId(String loginId) {
         ArrayList<String> list = new ArrayList();
         SQL_instruct = "SELECT store_1 FROM relation WHERE store_2=?";
@@ -107,20 +107,21 @@ public class StoreDAO {
 
 
     // 같은 지역(addre1)의 가게이름/주인아이디 가져오기
-    public ArrayList<StoreOwner> sameAreaStoreList(String area) {
+    public ArrayList<StoreOwner> sameAreaStoreList(String area,String myStoreName) {
         ArrayList<StoreOwner> areaList = new ArrayList();
-        SQL_instruct = "SELECT name, owner_id FROM store WHERE addre1=?";
+        SQL_instruct = "SELECT name, owner_id FROM store WHERE addre1=? AND owner_id NOT IN('1') AND name NOT IN(?)";
 
         try {
             pstmt = conn.prepareStatement(SQL_instruct);
             pstmt.setString(1, area);
+            pstmt.setString(2, myStoreName);
             rs = pstmt.executeQuery();
 
             while (rs.next())
                 areaList.add(new StoreOwner(rs.getString(1), rs.getString(2)));
 
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
+            System.out.println("sameAreaStoreList: "+e.getLocalizedMessage());
         }
         return areaList;
     }

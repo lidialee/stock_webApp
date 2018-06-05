@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="css/search.css">
 
     <%
+
         String loginId = null;      //   사용자아이디, 세션으로 받아진다
         String storeName = null;    //   지점이름, 사용자아이디로 서버에서 얻어진다
         String shareStoreLoginId = null;
@@ -28,10 +29,10 @@
 
         // 세션으로 사용자아이디, 그리고 지점명, 지점정보 얻어오기
         try {
-            if(session.getAttribute("requestStoreOwnerId")!=null){
-                shareStoreLoginId = (String)session.getAttribute("requestStoreOwnerId");
+            if (session.getAttribute("requestStoreOwnerId") != null) {
+                shareStoreLoginId = (String) session.getAttribute("requestStoreOwnerId");
             }
-            if (session.getAttribute("ownerLoginId") != null ) {
+            if (session.getAttribute("ownerLoginId") != null) {
                 loginId = (String) session.getAttribute("ownerLoginId");
                 storeInfo = storeDAO.getStoreInfo(loginId);
                 storeName = storeInfo.getName();
@@ -51,6 +52,10 @@
     <script>
         function checkRelation(loginId) {
             location.href = './searchShareStoreInfoAction.jsp?requestStoreOwnerId=' + loginId;
+        }
+
+        function sendRequset(receiverId){
+            location.href = './sendRequestShareActoin.jsp?receiverId=' + receiverId;
         }
 
     </script>
@@ -89,16 +94,13 @@
         <div class="jumbotron" style="padding-top:20px; padding-bottom:3px; background-color:transparent;">
             <div class="form-group">
                 <a style="font-size :32px; font-weight:500; font-family:'Jeju Gothic';">주변지점 재고확인</a>
-                <button class="btn btn-danger btn-rounded" type="button" id="response_btn"
-                        style="margin-left:10px; float:right; font-color:yellow;">요청 리스트</button>
-                <a class="btn btn-danger btn-rounded" style="margin-left:10px; float:right;" data-toggle="modal" href="#requestShare">재고 공유 요청</a>
-                <%--<button class="btn btn-danger btn-rounded" type="button" id="request_btn"--%>
-                        <%--style="margin-left:10px; float:right; font-color:yellow;">재고 공유 요청</button>--%>
+                <%--<button class="btn btn-outline-danger waves-effect" type="button" data-toggle="modal" data-target="#requstListModal" id="response_btn" style="margin-left:10px; float:right;">요청 리스트</button>--%>
+                <%--<button class="btn btn-outline-danger waves-effect" type="button" data-toggle="modal" data-target="#sendRequest" id="requestShare" style="margin-left:10px; float:right;" >재고 공유 요청</button>--%>
             </div>
         </div>
         <div class="row" style="padding-bottom:30px">
 
-            <!-- 공유 지점 리스트  -->
+            <!-- 공유 지점 리스트 (왼쪽)  -->
             <div class="col-sm-2 col-md-2 col-lg-2 col-xs-2" style="border-radius:8%; padding-top:10px">
                 <h5 style="text-align:left;"> 재고 공유 리스트</h5>
 
@@ -122,7 +124,7 @@
             </div>
 
 
-            <!-- 테이블부분 -->
+            <!-- 테이블부분 (오른쪽)-->
             <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10" style="padding-top:10px">
                 <table class="product_info_table">
                     <thead>
@@ -140,17 +142,20 @@
                     <!-- 여기부터 하렴 -->
                     <%
                         ArrayList<Shoe> list;
-                        if(shareStoreLoginId!=null){
+                        if (shareStoreLoginId != null) {
                             list = shoesDAO.getAllShoes(shareStoreLoginId);
-                            if(list!=null){
+                            if (list != null) {
                                 for (int a = 0; a < list.size(); a++) {
                                     Shoe s = list.get(a);
 
                     %>
                     <tr class="tbody_custom_class">
-                        <td style="width:150px"><%=s.getShoesId()%></td>
-                        <td style="width:430px"><%=s.getName()%></td>
-                        <td style="width:230px"><%=s.getBrand()%></td>
+                        <td style="width:150px"><%=s.getShoesId()%>
+                        </td>
+                        <td style="width:430px"><%=s.getName()%>
+                        </td>
+                        <td style="width:230px"><%=s.getBrand()%>
+                        </td>
                         <td style="width:90px"><%=s.getSex()%>
                         </td>
                         <td style="width:120px"><%=s.getColor()%>
@@ -163,11 +168,90 @@
                     </tr>
                     <%
                                 }
-                             }
+                            }
                         }
                     %>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 요청 보내기 모달 -->
+    <div id="sendRequest" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm" >
+            <div class="modal-content">
+
+                <!-- 헤더 -->
+                <div class="modal-header">
+                    <p style="font-size:14px;"class="modal-title" id="modal"> 근처지점 공유요청 </p>
+                    <p style="font-style:bold;margin-left:5px; margin-top:3px; font-size:12px;"> 같은 <%= storeInfo.getAddre1()%>에 있는 ABC 지점입니다. </br> 재고 정보 공유를 요청하고 싶으시다면 </br> 해당 지점 버튼을 클릭해주세요.</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"> &times; </span>
+                    </button>
+                </div>
+
+                <!-- 본문 -->
+                <div class="modal-body" style="float:center;">
+                    <%
+                        String myAddre1 = storeInfo.getAddre1();
+                        System.out.println("지역 확인합니다 : "+ myAddre1);
+                        ArrayList<StoreOwner> sameAreaList = storeDAO.sameAreaStoreList(myAddre1,storeName);
+                        if(sameAreaList.size() != 0){
+                            for(int a=0; a<sameAreaList.size();a++){
+                                StoreOwner so = sameAreaList.get(a);
+                    %>
+                            <div class="form-row" style="padding:5px;">
+                                <button class="btn btn-outline-danger btn-rounded waves-effect" style="width:200px;" type="button" id="<%=so.getId()%>" onclick="sendRequset('<%=so.getId()%>');"> <%=so.getName()%> </button>
+                            </div>
+                    <%
+                            }
+                        }else{
+                    %>
+                             같은 <%= storeInfo.getAddre1()+"에 등록된 지점이 없습니다"%></p>
+                    <%
+                            }
+                    %>
+
+
+                </div>
+
+
+                <!-- 아래 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 요청 리스트 모달  -->
+    <div id="requstListModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- 헤더 -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal"> 요청 리스트 </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"> &times; </span>
+                    </button>
+                </div>
+
+                <!-- 본문 -->
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+
+                <!-- 아래 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -246,87 +330,6 @@
                             <button type="submit" class="btn btn-danger btn-rounded">수정완료</button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- 가게 정보 수정 모달 부분 -->
-        <div class="modal fade" id="requestShare" tabindex="-1" role="dialog" aria-labelledbt="modal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color:#fffc7a;">
-                        <h5 class="modal-title" id="modal"> 가게 정보 수정</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"> &times; </span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <form action="./editShopAction.jsp" method="post">
-                            <div class="form-row">
-                                <div class="form-group col-sm-12">
-                                    <label>지점명</label>
-                                    <input type="text" name="name" class="form-control" maxlength="30"
-                                           value="<%=storeInfo.getName()%>">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-sm-6">
-                                    <label>시/도</label>
-                                    <select name="addre1" class="form-control">
-                                        <option value="서울특별시">서울특별시</option>
-                                        <option value="부산광역시">부산광역시</option>
-                                        <option value="대구광역시">대구광역시</option>
-                                        <option value="인천광역시">인천광역시</option>
-                                        <option value="광주광역시">광주광역시</option>
-                                        <option value="대전광역시">대전광역시</option>
-                                        <option value="울산광역시">울산광역시</option>
-                                        <option value="세종특별자치시">세종특별자치시</option>
-                                        <option value="경기도">경기도</option>
-                                        <option value="강원도">강원도</option>
-                                        <option value="충청북도">충청북도</option>
-                                        <option value="충청남도">충청남도</option>
-                                        <option value="전라북도">전라북도</option>
-                                        <option value="전라남도">전라남도</option>
-                                        <option value="경상북도">경상북도</option>
-                                        <option value="경상남도">경상남도</option>
-                                        <option value="제주특별자치도">제주특별자치도</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label>시/군/구</label>
-                                    <input type="text" name="addre2" class="form-control" maxlength="30"
-                                           value="<%=storeInfo.getAddre2()%>">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-sm-12">
-                                    <label>읍/면/동, 추가주소 입력</label>
-                                    <input type="text" name="addre3" class="form-control" maxlength="1000"
-                                           value="<%=storeInfo.getAddre3()%>">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-sm-12">
-                                    <label>가게 전화번호</label>
-                                    <input type="text" name="phone" class="form-control" maxlength="10000"
-                                           value="<%=storeInfo.getPhone()%>">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-sm-12">
-                                    <label>가게 웹사이트</label>
-                                    <input type="text" name="website" class="form-control" maxlength="10000"
-                                           value="<%=storeInfo.getWebsite()%>">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger btn-rounded">수정완료</button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

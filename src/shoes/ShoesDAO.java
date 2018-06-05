@@ -256,7 +256,21 @@ public class ShoesDAO {
     }
 
 
+    public String getShoesURL(int shoesId){
+        String shoesURL="";
+        SQL_instruct = "SELECT url FROM image WHERE shoes_id = ?";
 
+        try {
+            pstmt = conn.prepareStatement(SQL_instruct);
+            pstmt.setInt(1, shoesId);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                shoesURL = rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("resultShoesList : " + e.getLocalizedMessage());
+        }
+        return shoesURL;
 
-
+    }
 }
