@@ -62,14 +62,22 @@
             }
         }
 
-      function goStockUpdate(shoesID){
-          var stock = parseInt(document.getElementById(shoesID).value);
-          location.href='./stockUpdateAction.jsp?shoesID='+shoesID+'&stock='+stock;
-      }
+        function goStockUpdate(shoesID) {
+            var stock = parseInt(document.getElementById(shoesID).value);
+            location.href = './stockUpdateAction.jsp?shoesID=' + shoesID + '&stock=' + stock;
+        }
 
-      function goDeleteStock(shoesID){
-         location.href='./deleteStockAction.jsp?shoesID='+shoesID;
-      }
+        function goDeleteStock(shoesID) {
+            location.href = './deleteStockAction.jsp?shoesID=' + shoesID;
+        }
+
+        function register() {
+            var shoes_id = parseInt(document.getElementById('registerNumber').value);
+            var stock2 = parseInt(document.getElementById('registerStock').value);
+            location.href = './stockAction.jsp?shoesID=' + shoes_id + '&stock=' + stock2;
+        }
+
+
     </script>
 </head>
 <body>
@@ -103,66 +111,109 @@
         <div class="jumbotron" style="padding-top:20px; padding-bottom:3px; background-color:transparent;">
             <div class="form-group">
                 <a style="font-size :32px; font-weight:500; font-family:'Jeju Gothic';">재고 관리</a>
-                <button class="btn btn-danger btn-rounded" type="button" style="margin-left:10px; float:right; font-color:yellow;">입고 등록</button>
+                <button class="btn btn-danger btn-rounded" type="button" data-toggle="modal"
+                        data-target="#registerShoes" style="margin-left:10px; float:right; font-color:yellow;">입고 등록
+                </button>
             </div>
         </div>
     </div>
 
     <div class="col-lg-13">
-    <table class="my_stock_table">
-        <thead>
-        <tr style="font-size:12px">
-            <th>제품명</th>
-            <th>브랜드</th>
-            <th>성별</th>
-            <th>색상</th>
-            <th>사이즈</th>
-            <th>타입</th>
-            <th>가격</th>
-            <th>재고량</th>
-        </tr>
-        </thead>
-        <tbody>
-        <%
-            ArrayList<Shoe> list;
-            list = shoesDAO.getAllShoes(loginId);
-            if (list != null) {
-                for (int a = 0; a < list.size(); a++) {
-                    Shoe s = list.get(a);
-                    int shoes_id = s.getShoesId();
-        %>
-        <tr>
-            <td style="width:430px;font-size:12px;"><%=s.getName()%>
-            </td>
-            <td style="width:220px;font-size:12px;"><%=s.getBrand()%>
-            </td>
-            <td style="width:100px;font-size:12px;"><%=s.getSex()%>
-            </td>
-            <td style="width:100px;font-size:12px;"><%=s.getColor()%>
-            </td>
-            <td style="width:130px;font-size:12px;"><%=s.getSize()%>
-            </td>
-            <td style="width:130px;font-size:12px;"><%=s.getType()%>
-            </td>
-            <td style="width:150px;font-size:12px;"><%=s.getPrice()%>원
-            </td>
-            <td style="width:600px;font-size:12px;">
-                <button style="font-color:black;" id="<%=shoes_id%>_plus" onclick="plus_One('<%=shoes_id%>');">+</button>
-                <input type="text" id="<%=shoes_id%>" style="width:35px" value="<%=s.getStock()%> ">
-                <button id="<%=shoes_id%>_minus" onclick="minus_One('<%=shoes_id%>');">-</button>
-                <button id="<%=shoes_id%>_finish" onclick="goStockUpdate('<%=shoes_id%>')">완료</button>
-                <button id="<%=s.getShoesId()%>_remove" onclick="goDeleteStock('<%=shoes_id%>')">삭제</button>
-            </td>
-        </tr>
-        <%
+        <table class="my_stock_table">
+            <thead>
+            <tr style="font-size:12px">
+                <th>제품명</th>
+                <th>브랜드</th>
+                <th>성별</th>
+                <th>색상</th>
+                <th>사이즈</th>
+                <th>타입</th>
+                <th>가격</th>
+                <th>재고량</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                ArrayList<Shoe> list;
+                list = shoesDAO.getAllShoes(loginId);
+                if (list != null) {
+                    for (int a = 0; a < list.size(); a++) {
+                        Shoe s = list.get(a);
+                        int shoes_id = s.getShoesId();
+            %>
+            <tr>
+                <td style="width:430px;font-size:12px;"><%=s.getName()%>
+                </td>
+                <td style="width:220px;font-size:12px;"><%=s.getBrand()%>
+                </td>
+                <td style="width:100px;font-size:12px;"><%=s.getSex()%>
+                </td>
+                <td style="width:100px;font-size:12px;"><%=s.getColor()%>
+                </td>
+                <td style="width:130px;font-size:12px;"><%=s.getSize()%>
+                </td>
+                <td style="width:130px;font-size:12px;"><%=s.getType()%>
+                </td>
+                <td style="width:150px;font-size:12px;"><%=s.getPrice()%>원
+                </td>
+                <td style="width:600px;font-size:12px;">
+                    <button style="font-color:black;" id="<%=shoes_id%>_plus" onclick="plus_One('<%=shoes_id%>');">+
+                    </button>
+                    <input type="text" id="<%=shoes_id%>" style="width:35px" value="<%=s.getStock()%> ">
+                    <button id="<%=shoes_id%>_minus" onclick="minus_One('<%=shoes_id%>');">-</button>
+                    <button id="<%=shoes_id%>_finish" onclick="goStockUpdate('<%=shoes_id%>')">완료</button>
+                    <button id="<%=s.getShoesId()%>_remove" onclick="goDeleteStock('<%=shoes_id%>')">삭제</button>
+                </td>
+            </tr>
+            <%
+                    }
                 }
-            }
-
-        %>
-        </tbody>
-    </table>
+            %>
+            </tbody>
+        </table>
     </div>
 </div>
+
+<%--입고 등록 모달 --%>
+<div id="registerShoes" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- 헤더 -->
+            <div class="modal-header" style="background-color:#fffc7a;">
+                <h5 class="modal-title" id="modal"> 요청 리스트 </h5>
+            </div>
+
+            <!-- 본문 -->
+            <div class="modal-body">
+
+                <div class="form-row">
+                    <div class="form-group col-sm-6" style="text-align:center; font-style:bold;">
+                        <th>신발아이디</th>
+                    </div>
+                    <div class="form-group col-sm-6"  style="text-align:center; font-style:bold;">
+                        <th>재고량</th>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <input type="text" id="registerNumber" class="form-control" placeholder="신발번호"
+                               name="shoesId" maxlength="20">
+
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <input type="text" id="registerStock" class="form-control" placeholder="재고량" name="stock"
+                               maxlength="20">
+                    </div>
+                </div>
+                <input type="button" class="btn btn-outline-danger waves-effect" style="float:right;" value="등록" onclick="register()">
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- 가게 정보 수정 모달 부분 -->
 <div class="modal fade" id="editShopModal" tabindex="-1" role="dialog" aria-labelledbt="modal" aria-hidden="true">
@@ -241,6 +292,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- 제이쿼리 import 부분 -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

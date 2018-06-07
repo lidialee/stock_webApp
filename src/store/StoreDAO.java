@@ -84,46 +84,22 @@ public class StoreDAO {
         return list;
     }
 
-
-    // 공유지점의 지점명 가져오기
-    public ArrayList<StoreOwner> getSharedStoreName(ArrayList<String> IDList) {
+    // 같은 경기도 지역 가게 이름과 점장 아이디 가져오기
+    public ArrayList<StoreOwner> getSameAreaStoreInfo(String addre1,String myId) {
         ArrayList<StoreOwner> resultList = new ArrayList();
-        SQL_instruct = "SELECT name, owner_id FROM store WHERE owner_id=?";
+        SQL_instruct = "SELECT name, owner_id FROM store WHERE addre1=? AND owner_id NOT IN('1',?)";
 
         try {
             pstmt = conn.prepareStatement(SQL_instruct);
-            for (int a = 0; a < IDList.size(); a++) {
-                pstmt.setString(1, IDList.get(a));
-                rs = pstmt.executeQuery();
+            pstmt.setString(1, addre1);
+            pstmt.setString(2, myId);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                resultList.add(new StoreOwner(rs.getString(1), rs.getString(2)));
 
-                while (rs.next())
-                    resultList.add(new StoreOwner(rs.getString(1), rs.getString(2)));
-            }
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return resultList;
     }
-
-
-    // 같은 지역(addre1)의 가게이름/주인아이디 가져오기
-    public ArrayList<StoreOwner> sameAreaStoreList(String area,String myStoreName) {
-        ArrayList<StoreOwner> areaList = new ArrayList();
-        SQL_instruct = "SELECT name, owner_id FROM store WHERE addre1=? AND owner_id NOT IN('1') AND name NOT IN(?)";
-
-        try {
-            pstmt = conn.prepareStatement(SQL_instruct);
-            pstmt.setString(1, area);
-            pstmt.setString(2, myStoreName);
-            rs = pstmt.executeQuery();
-
-            while (rs.next())
-                areaList.add(new StoreOwner(rs.getString(1), rs.getString(2)));
-
-        } catch (Exception e) {
-            System.out.println("sameAreaStoreList: "+e.getLocalizedMessage());
-        }
-        return areaList;
-    }
-
 }

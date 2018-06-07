@@ -94,20 +94,22 @@
         <div class="jumbotron" style="padding-top:20px; padding-bottom:3px; background-color:transparent;">
             <div class="form-group">
                 <a style="font-size :32px; font-weight:500; font-family:'Jeju Gothic';">주변지점 재고확인</a>
-                <%--<button class="btn btn-outline-danger waves-effect" type="button" data-toggle="modal" data-target="#requstListModal" id="response_btn" style="margin-left:10px; float:right;">요청 리스트</button>--%>
-                <%--<button class="btn btn-outline-danger waves-effect" type="button" data-toggle="modal" data-target="#sendRequest" id="requestShare" style="margin-left:10px; float:right;" >재고 공유 요청</button>--%>
+                <p>
+                <a style="font-size :15px;">같은 </a>
+                <u style="font-size :16px; font-weight:300; font-family:'Jeju Gothic';"><%= storeInfo.getAddre1()%></u>
+                <a style="font-size :15px;">지역에 입점한 ABC마트의 재고 상황입니다</a>
             </div>
         </div>
         <div class="row" style="padding-bottom:30px">
 
             <!-- 공유 지점 리스트 (왼쪽)  -->
-            <div class="col-sm-2 col-md-2 col-lg-2 col-xs-2" style="border-radius:8%; padding-top:10px">
+            <div class="col-sm-2 col-md-2 col-lg-2 col-xs-2" style="border-radius:8%;">
                 <h5 style="text-align:left;"> 재고 공유 리스트</h5>
 
                 <!-- 공유지점 버튼리스트 -->
                 <%
                     ArrayList<String> idList = storeDAO.getSharedOwnerId(loginId);
-                    ArrayList<StoreOwner> shareStoreList = storeDAO.getSharedStoreName(idList);
+                    ArrayList<StoreOwner> shareStoreList = storeDAO.getSameAreaStoreInfo(storeInfo.getAddre1(),loginId);
                     for (int i = 0; i < shareStoreList.size(); i++) {
                         StoreOwner st = shareStoreList.get(i);
                         String shareStoreName = st.getName();
@@ -125,7 +127,7 @@
 
 
             <!-- 테이블부분 (오른쪽)-->
-            <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10" style="padding-top:10px">
+            <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10">
                 <table class="product_info_table">
                     <thead>
                     <tr style="font-size:12px">
@@ -144,7 +146,7 @@
                         ArrayList<Shoe> list;
                         if (shareStoreLoginId != null) {
                             list = shoesDAO.getAllShoes(shareStoreLoginId);
-                            if (list != null) {
+                            if (list.size()!=0) {
                                 for (int a = 0; a < list.size(); a++) {
                                     Shoe s = list.get(a);
 
@@ -173,85 +175,6 @@
                     %>
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- 요청 보내기 모달 -->
-    <div id="sendRequest" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-sm" >
-            <div class="modal-content">
-
-                <!-- 헤더 -->
-                <div class="modal-header">
-                    <p style="font-size:14px;"class="modal-title" id="modal"> 근처지점 공유요청 </p>
-                    <p style="font-style:bold;margin-left:5px; margin-top:3px; font-size:12px;"> 같은 <%= storeInfo.getAddre1()%>에 있는 ABC 지점입니다. </br> 재고 정보 공유를 요청하고 싶으시다면 </br> 해당 지점 버튼을 클릭해주세요.</p>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"> &times; </span>
-                    </button>
-                </div>
-
-                <!-- 본문 -->
-                <div class="modal-body" style="float:center;">
-                    <%
-                        String myAddre1 = storeInfo.getAddre1();
-                        System.out.println("지역 확인합니다 : "+ myAddre1);
-                        ArrayList<StoreOwner> sameAreaList = storeDAO.sameAreaStoreList(myAddre1,storeName);
-                        if(sameAreaList.size() != 0){
-                            for(int a=0; a<sameAreaList.size();a++){
-                                StoreOwner so = sameAreaList.get(a);
-                    %>
-                            <div class="form-row" style="padding:5px;">
-                                <button class="btn btn-outline-danger btn-rounded waves-effect" style="width:200px;" type="button" id="<%=so.getId()%>" onclick="sendRequset('<%=so.getId()%>');"> <%=so.getName()%> </button>
-                            </div>
-                    <%
-                            }
-                        }else{
-                    %>
-                             같은 <%= storeInfo.getAddre1()+"에 등록된 지점이 없습니다"%></p>
-                    <%
-                            }
-                    %>
-
-
-                </div>
-
-
-                <!-- 아래 -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-
-
-    <!-- 요청 리스트 모달  -->
-    <div id="requstListModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- 헤더 -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal"> 요청 리스트 </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"> &times; </span>
-                    </button>
-                </div>
-
-                <!-- 본문 -->
-                <div class="modal-body">
-                    <p>Some text in the modal.</p>
-                </div>
-
-                <!-- 아래 -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-
             </div>
         </div>
     </div>
